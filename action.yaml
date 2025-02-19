@@ -1,0 +1,39 @@
+name: "Upgrade Huawei Cloud CAE Deployment"
+description: "Upgrade a component in Huawei Cloud CAE"
+inputs:
+  project_id:
+    description: "Project ID"
+    required: true
+  environment_name:
+    description: "Environment Name"
+    required: true
+  app_name:
+    description: "Application Name"
+    required: true
+  component_name:
+    description: "Component Name"
+    required: true
+  version:
+    description: "Version to deploy"
+    required: true
+  accessKey:
+    description: "Access Key"
+    required: true
+  secretKey:
+    description: "Secret Key"
+    required: true
+  region:
+    description: "Huawei Cloud Region"
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    PROJECT_ID: ${{ inputs.project_id }}
+    ENVIRONMENT_NAME: ${{ inputs.environment_name }}
+    APP_NAME: ${{ inputs.app_name }}
+    COMPONENT_NAME: ${{ inputs.component_name }}
+    VERSION: ${{ inputs.version }}
+    ACCESS_KEY: ${{ inputs.accessKey }}
+    SECRET_KEY: ${{ inputs.secretKey }}
+    REGION: ${{ secrets.region }}
