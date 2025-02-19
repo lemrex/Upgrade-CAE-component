@@ -22,6 +22,9 @@ send "$REGION\r"
 expect eof
 EOF
 
+# Set CLI language to Chinese
+hcloud configure set --cli-lang=cn
+
 echo "Huawei Cloud CLI configured successfully."
 
 # Accept Huawei CLI Agreement
