@@ -1,5 +1,6 @@
 # **Huawei Cloud CAE Component Upgrade**  
 
+![GitHub Marketplace](https://img.shields.io/badge/Marketplace-upgrade--CAE--component-blue)  
 This GitHub Action automates the upgrade of a **Component** in **Huawei Cloud Cloud Application Engine (CAE)** using the **Huawei Cloud CLI (hcloud)**.  
 
 ## **Features**  
