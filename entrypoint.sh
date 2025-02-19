@@ -10,6 +10,14 @@ fi
 # Configure Huawei Cloud CLI non-interactively
 /usr/bin/expect <<EOF
 set timeout 10
+spawn hcloud
+
+# Accept Huawei CLI Agreement
+expect "Agree and continue (y)/Disagree and exit (N):"
+send "y\r"
+
+expect eof
+
 spawn hcloud configure init
 expect "Access Key ID \\[required\\]:"
 send "$ACCESS_KEY\r"
@@ -39,7 +47,7 @@ if [ -z "$APP_ID" ]; then
 fi
 
 # Get Component ID
-COMPONENT_ID=$(hcloud CAE ListComponents --X-Environment-ID="$ENV_ID" --application_id="$APP_ID" --project_id="$INPUT_PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$COMPONENT_NAME\") | .id")
+COMPONENT_ID=$(hcloud CAE ListComponents --X-Environment-ID="$ENV_ID" --application_id="$APP_ID" --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$COMPONENT_NAME\") | .id")
 if [ -z "$COMPONENT_ID" ]; then
     echo "Error: Component '$COMPONENT_NAME' not found."
     exit 1
@@ -72,7 +80,7 @@ hcloud CAE ExecuteAction \
   --kind="Action" \
   --project_id="$PROJECT_ID" \
   --metadata.name="upgrade" \
-  --metadata.annotations.version="$INPUT_VERSION" \
+  --metadata.annotations.version="$VERSION" \
   --spec.source.type="code" \
   --spec.source.sub_type="GitHub" \
   --spec.source.url="$URL" \
@@ -80,12 +88,19 @@ hcloud CAE ExecuteAction \
   --spec.source.code.auth_name="$AUTH_NAME" \
   --spec.source.code.namespace="$NAMESPACE"
 
-# Cleanup sensitive environment variables
+echo "Deployment successful."
+
+# Cleanup sensitive data
 hcloud configure clear  # Removes stored AK/SK and region settings
-unset INPUT_AK
-unset INPUT_SK
+unset ACCESS_KEY
+unset SECRET_KEY
 unset REGION
+unset PROJECT_ID
+unset ENVIRONMENT_NAME
+unset APP_NAME
+unset COMPONENT_NAME
+unset VERSION
 history -c
 rm -f /home/runner/entrypoint.sh
 
-echo "Deployment successful."
+echo "Sensitive data cleared."
