@@ -7,8 +7,22 @@ if [[ -z "$PROJECT_ID" || -z "$ENVIRONMENT_NAME" || -z "$APP_NAME" || -z "$COMPO
   exit 1
 fi
 
-# Configure Huawei Cloud CLI authentication with region
-hcloud configure set --ak="$ACCESS_KEY" --sk="$SECRET_KEY" --region="$REGION" 
+# Configure Huawei Cloud CLI non-interactively
+/usr/bin/expect <<EOF
+set timeout 10
+spawn hcloud configure init
+expect "Access Key ID \\[required\\]:"
+send "$ACCESS_KEY\r"
+expect "Secret Access Key \\[required\\]:"
+send "$SECRET_KEY\r"
+expect "Secret Access Key (again):"
+send "$SECRET_KEY\r"
+expect "Region:"
+send "$REGION\r"
+expect eof
+EOF
+
+echo "Huawei Cloud CLI configured successfully."
 
 # Get Environment ID
 ENV_ID=$(hcloud CAE ListEnvironments --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$ENVIRONMENT_NAME\") | .id")
