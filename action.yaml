@@ -36,4 +36,4 @@ runs:
     VERSION: ${{ inputs.version }}
     ACCESS_KEY: ${{ inputs.accessKey }}
     SECRET_KEY: ${{ inputs.secretKey }}
-    REGION: ${{ secrets.region }}
+    REGION: ${{ inputs.region }}
