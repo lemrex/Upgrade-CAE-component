@@ -25,6 +25,10 @@ inputs:
   region:
     description: "Huawei Cloud Region"
     required: true
+  enterprise_project_id:
+    description: "Enterprise Project ID (Optional)."
+    required: false
+    default: "0"
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -37,3 +41,4 @@ runs:
     ACCESS_KEY: ${{ inputs.accessKey }}
     SECRET_KEY: ${{ inputs.secretKey }}
     REGION: ${{ inputs.region }}
+    EPI: ${{inputs.enterprise_project_id}}

@@ -7,6 +7,10 @@ if [[ -z "$PROJECT_ID" || -z "$ENVIRONMENT_NAME" || -z "$APP_NAME" || -z "$COMPO
   exit 1
 fi
 
+# Set default EPI if not provided
+EPI=${EPI:-0}
+
+
 # Configure Huawei Cloud CLI non-interactively
 /usr/bin/expect <<EOF
 set timeout 10
@@ -43,12 +47,17 @@ if [ -z "$ENV_ID" ]; then
     exit 1
 fi
 
+echo "Found Environment ID: $ENV_ID"
+
 # Get Application ID
 APP_ID=$(hcloud CAE ListApplications --X-Environment-ID="$ENV_ID" --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$APP_NAME\") | .id")
 if [ -z "$APP_ID" ]; then
     echo "Error: Application '$APP_NAME' not found."
     exit 1
 fi
+
+echo "Found Application ID: $APP_ID"
+
 
 # Get Component ID
 COMPONENT_ID=$(hcloud CAE ListComponents --X-Environment-ID="$ENV_ID" --application_id="$APP_ID" --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$COMPONENT_NAME\") | .id")
@@ -57,12 +66,19 @@ if [ -z "$COMPONENT_ID" ]; then
     exit 1
 fi
 
+echo "Found Component ID: $COMPONENT_ID"
+
 # Get Component Details
 RESPONSE=$(hcloud CAE ShowComponent --X-Environment-ID="$ENV_ID" --application_id="$APP_ID" --component_id="$COMPONENT_ID" --project_id="$PROJECT_ID" 2>/dev/null)
 if [ -z "$RESPONSE" ]; then
     echo "Error: Failed to retrieve component details."
     exit 1
 fi
+
+
+echo "Component Details:"
+echo "$RESPONSE" | jq .
+
 
 # Extract auth_name, namespace, and URL
 AUTH_NAME=$(echo "$RESPONSE" | jq -r '.spec.source.code.auth_name')
@@ -81,6 +97,7 @@ hcloud CAE ExecuteAction \
   --api_version="v1" \
   --application_id="$APP_ID" \
   --component_id="$COMPONENT_ID" \
+  --X-Enterprise-Project-ID="$EPI" \
   --kind="Action" \
   --project_id="$PROJECT_ID" \
   --metadata.name="upgrade" \
@@ -95,7 +112,6 @@ hcloud CAE ExecuteAction \
 echo "Deployment successful."
 
 # Cleanup sensitive data
-hcloud configure clear  # Removes stored AK/SK and region settings
 unset ACCESS_KEY
 unset SECRET_KEY
 unset REGION

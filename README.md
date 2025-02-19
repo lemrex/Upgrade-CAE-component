@@ -34,6 +34,7 @@ jobs:
         uses: lemrex/upgrade-cae
         with:
           project_id: ${{ secrets.HUAWEI_PROJECT_ID }}
+          enterprise_project_id: "optional"
           environment_name: "your-environment"
           app_name: "your-app"
           component_name: "your-component"
