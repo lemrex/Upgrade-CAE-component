@@ -35,20 +35,19 @@ jobs:
         with:
           project_id: ${{ secrets.HUAWEI_PROJECT_ID }}
           enterprise_project_id: "optional"
-          environment_name: "your-environment"
-          app_name: "your-app"
-          component_name: "your-component"
+          environment_name: "environment name"
+          app_name: "app name"
+          component_name: "component name"
           version: "1.0.7"
-          accessKey: ${{ secrets.HUAWEI_AK }}
-          secretKey: ${{ secrets.HUAWEI_SK }}
-          region: "cn-north-4"
+          accessKey: ${{ secrets.ACCESSKEY }}
+          secretKey: ${{ secrets.SECRETKEY }}
+          region: "af-south-1"
 ```
 
 ---
 
 ## **Inputs**  
 
-Here's the updated table with **`enterprise_project_id`** added:  
 
 | Name                   | Description                                                                 | Required |
 |------------------------|------------------------------------------------------------------------|----------|
@@ -68,7 +67,7 @@ Here's the updated table with **`enterprise_project_id`** added:
 ## **Security Considerations**  
 
 ✅ **Sensitive Inputs Are Secured**  
-- Use **GitHub Secrets** (`secrets.HUAWEI_AK`, `secrets.HUAWEI_SK`) instead of storing credentials in the workflow.  
+- Use **GitHub Secrets** (`secrets.ACCESSKEY`, `secrets.SECRETKEY`, `secrets.PROJECT_ID`) instead of storing credentials in the workflow.  
 
 ✅ **Automatic Credential Cleanup**  
 - `hcloud configure clear` removes stored credentials after deployment.  
@@ -85,7 +84,7 @@ Here's the updated table with **`enterprise_project_id`** added:
 - A **Huawei Cloud account**  
 - **Access Key (AK) and Secret Key (SK)**  
 - A **CAE environment, application, and component** already created  
-- The **Huawei Cloud CLI (`hcloud`) installed**  
+- The **Project ID**  
 
 ---
 
@@ -93,7 +92,7 @@ Here's the updated table with **`enterprise_project_id`** added:
 
 🔹 **Invalid Credentials**  
 - Ensure AK/SK are correct and have CAE permissions.  
-- Check that you are using the **correct region** (`cn-north-4`, `ap-southeast-1`, etc.).  
+- Check that you are using the **correct region** (`af-south-1`, `ap-southeast-1`, etc.).  
 
 🔹 **Environment, Application, or Component Not Found**  
 - Verify that the names match what is in **Huawei Cloud CAE**.  
@@ -104,6 +103,18 @@ Here's the updated table with **`enterprise_project_id`** added:
 
 ---
 
+## **REFERENCE**  
+
+- [Huawei Cloud CAE API Documentation](https://support.huaweicloud.com/intl/en-us/productdesc-cae/cae_01_0001.html)
+- [Enterprise Project Management](https://support.huaweicloud.com/intl/en-us/usermanual-em/pm_topic_0003.html)
+- [Huawei Cloud CLI (`hcloud`) Guide](https://support.huaweicloud.com/intl/en-us/productdesc-hcli/hcli_01.html)
+
+---
+
 ## **License**  
 This project is licensed under the **MIT License**.  
+
+
+
+
 
