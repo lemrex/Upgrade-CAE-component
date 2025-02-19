@@ -8,7 +8,7 @@ if [[ -z "$PROJECT_ID" || -z "$ENVIRONMENT_NAME" || -z "$APP_NAME" || -z "$COMPO
 fi
 
 # Configure Huawei Cloud CLI authentication with region
-hcloud configure set --ak="$ACCESS_KEY" --sk="$SECRET_KEY" --region="$REGION" --no-prompt
+hcloud configure set --ak="$ACCESS_KEY" --sk="$SECRET_KEY" --region="$REGION" 
 
 # Get Environment ID
 ENV_ID=$(hcloud CAE ListEnvironments --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$ENVIRONMENT_NAME\") | .id")
