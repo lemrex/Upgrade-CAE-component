@@ -10,14 +10,6 @@ fi
 # Configure Huawei Cloud CLI non-interactively
 /usr/bin/expect <<EOF
 set timeout 10
-spawn hcloud
-
-# Accept Huawei CLI Agreement
-expect "Agree and continue (y)/Disagree and exit (N):"
-send "y\r"
-
-expect eof
-
 spawn hcloud configure init
 expect "Access Key ID \\[required\\]:"
 send "$ACCESS_KEY\r"
@@ -31,6 +23,15 @@ expect eof
 EOF
 
 echo "Huawei Cloud CLI configured successfully."
+
+# Accept Huawei CLI Agreement
+/usr/bin/expect <<EOF
+set timeout 10
+spawn hcloud
+expect "Agree and continue (y)/Disagree and exit (N):"
+send "y\r"
+expect eof
+EOF
 
 # Get Environment ID
 ENV_ID=$(hcloud CAE ListEnvironments --project_id="$PROJECT_ID" 2>/dev/null | jq -r ".items[] | select(.name == \"$ENVIRONMENT_NAME\") | .id")
