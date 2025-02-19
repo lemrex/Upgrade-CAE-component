@@ -1,5 +1,10 @@
 name: "Upgrade Huawei Cloud CAE Deployment"
 description: "Upgrade a component in Huawei Cloud CAE"
+author: 'Emeka Raphael'
+branding:
+  icon: 'refresh-ccw'
+  color: 'green'
+
 inputs:
   project_id:
     description: "Project ID"
