@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy Component
-        uses: lemrex/upgrade-cae
+        uses: lemrex/Upgrade-CAE-component@v1.0.0
         with:
           project_id: ${{ secrets.HUAWEI_PROJECT_ID }}
           enterprise_project_id: "optional"
@@ -48,16 +48,20 @@ jobs:
 
 ## **Inputs**  
 
-| Name               | Description                           | Required |
-|--------------------|--------------------------------------|----------|
-| `project_id`      | Huawei Cloud Project ID             | ✅ Yes |
-| `environment_name`| Name of the environment             | ✅ Yes |
-| `app_name`        | Name of the application             | ✅ Yes |
-| `component_name`  | Name of the component               | ✅ Yes |
-| `version`         | Version to deploy                   | ✅ Yes |
-| `ak`             | Huawei Cloud Access Key (AK)        | ✅ Yes |
-| `sk`             | Huawei Cloud Secret Key (SK)        | ✅ Yes |
-| `region`         | Huawei Cloud region (e.g., `cn-north-4`) | ✅ Yes |
+Here's the updated table with **`enterprise_project_id`** added:  
+
+| Name                   | Description                                                                 | Required |
+|------------------------|------------------------------------------------------------------------|----------|
+| `project_id`          | Huawei Cloud Project ID. [`More Info`](https://support.huaweicloud.com/intl/en-us/api-cae/cae_06_0021.html) | ✅ Yes |
+| `environment_name`    | Name of the environment                                                 | ✅ Yes |
+| `app_name`            | Name of the application                                                 | ✅ Yes |
+| `component_name`      | Name of the component                                                   | ✅ Yes |
+| `version`            | Version to deploy                                                       | ✅ Yes |
+| `accessKey`          | Huawei Cloud Access Key (AK)                                            | ✅ Yes |
+| `secretKey`          | Huawei Cloud Secret Key (SK)                                            | ✅ Yes |
+| `region`             | Huawei Cloud region (e.g., `af-south-1`)                                 | ✅ Yes |
+| `enterprise_project_id` | ID of the Enterprise Project for resource isolation. Default is `0` (for default project). [`More Info`](https://support.huaweicloud.com/intl/en-us/usermanual-em/pm_topic_0003.html) | ❌ No (Defaults to `0`) |
+
 
 ---
 
